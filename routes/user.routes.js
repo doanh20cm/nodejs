@@ -8,6 +8,6 @@ router.get('/', function(req, res, next) {
 })
 router.get('/api/getall', controller.findbyQuery);
 router.put('/api/user/:id', controller.update);
-router.post('api/user', controller.create);
-router.delete('api/user/:id', controller.delete);
+router.post('/api/user', controller.create);
+router.delete('/api/user/:id', controller.delete);
 module.exports = router;
