@@ -3,7 +3,7 @@ const User  = db.user;
 const Op = db.Sequelize.Op;
 // const { getPagination, getPagingData } = require("./utils");
 const { QueryTypes } = require('sequelize');
-var bcrypt = require("bcryptjs");
+const md5 = require("md5");
 // Create and Save a new User
 exports.create = (req, res) => { 
   // Create a User
@@ -14,7 +14,7 @@ exports.create = (req, res) => {
       fistname:req.body.fistname,
       lastname:req.body.lastname,
       avartar:req.body.avartar,          
-      password: bcrypt.hashSync(req.body.password, 8),
+      password: md5(req.body.password),
       roleid: req.body.roleid,      
   };
   // Save User in the database
@@ -80,7 +80,11 @@ exports.findOne = (req, res) => {
 // Update a User by the id in the request
 exports.update = (req, res) => {
     const id = req.params.id;
-    User.update(req.body, {
+    const updatedData = { ...req.body };
+    if (updatedData.password) {
+        updatedData.password = md5(updatedData.password); // Encrypt the new password
+    }
+    User.update(updatedData, {
         where: { id: id }
     })
     .then(num => {
