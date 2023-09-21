@@ -19,6 +19,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+var tutorialsRouter=require('./routes/tutorial.routers');
+app.use('/tutorial',tutorialsRouter);
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

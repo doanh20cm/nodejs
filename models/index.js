@@ -29,5 +29,5 @@ db.sequelize.sync({
     force: false,
 })
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
-
+db.tutorial = require("../models/tutorial.model.js")(sequelize, Sequelize);
 module.exports = db;

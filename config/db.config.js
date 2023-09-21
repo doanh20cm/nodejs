@@ -3,7 +3,7 @@ module.exports = {
     HOST: "localhost",
     PORT: "3306",
     USER: 'root',
-    PASSWORD: "12345",
+    PASSWORD: "",
     DB: "QLSV",
     dialect: "mysql",
     pool: {
