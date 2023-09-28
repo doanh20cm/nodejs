@@ -13,7 +13,6 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     port: dbConfig.PORT,
     dialect: dbConfig.dialect,
-    
     pool: {
         max: dbConfig.pool.max,
         min: dbConfig.pool.min,
@@ -25,9 +24,22 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
+//force: true will drop the table if it already exists
 db.sequelize.sync({
-    force: false,
-})
+  force: false
+}).then(() => {
+  console.log('Drop and Resync Database with { force: true }');
+  //initial();
+});
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.tutorial = require("../models/tutorial.model.js")(sequelize, Sequelize);
+db.category = require("../models/category.model.js")(sequelize, Sequelize);
+
+
+// Associations  1- n
+db.category.hasMany(db.tutorial, {
+  foreignKey: 'categoryId'
+});
+db.tutorial.belongsTo(db.category);
+
 module.exports = db;
